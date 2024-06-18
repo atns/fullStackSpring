@@ -5,6 +5,7 @@ import com.atns.fullstackatns.registration.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -19,6 +20,8 @@ public class UserService implements IUserService {
     //Don't need Autowired // @RequiredArgsConstructor(onConstructor_ = {@Autowired})
     private final UserRepository _userRepository;
 
+    private final PasswordEncoder _passwordEncoder;
+
     @Override
     public List<User> getAllUsers() {
         return _userRepository.findAll();
@@ -29,7 +32,7 @@ public class UserService implements IUserService {
         var user = new User(registration.getFirstName(),
                 registration.getLastName(),
                 registration.getEmail(),
-                registration.getPassword(),
+                _passwordEncoder.encode(registration.getPassword()) ,
                 Arrays.asList(new Role("ROLE_USER")));
         return null;
     }
