@@ -37,7 +37,7 @@ public class User {
     private Collection<Role> role;
 
 
-    public User(String firstName, String lastName, String email, String password, boolean isEnabled, Collection<Role> role) {
+    public User(String firstName, String lastName, String email, String password,  Collection<Role> role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface IUserService {
     List<User> getAllUsers();
     User registerUser(RegistrationRequest registrationRequest);
-    Optional<User> findUserbyEmail(String email);
+    User findUserbyEmail(String email);
 
 }
