@@ -34,7 +34,7 @@ public class UserService implements IUserService {
                 registration.getEmail(),
                 _passwordEncoder.encode(registration.getPassword()) ,
                 Arrays.asList(new Role("ROLE_USER")));
-        return null;
+        return  _userRepository.save(user);
     }
 
     @Override
@@ -42,4 +42,6 @@ public class UserService implements IUserService {
         return _userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
+
+
 }
