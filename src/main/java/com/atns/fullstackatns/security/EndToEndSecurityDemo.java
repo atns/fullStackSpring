@@ -20,26 +20,32 @@ public class EndToEndSecurityDemo {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       return http.csrf().disable()
-               .authorizeRequests()
-               .requestMatchers("/","/registration/**")
-               .permitAll()
-               .anyRequest()
-               .authenticated()
-               .and()
-               .formLogin()
-               .loginPage("/login")
-               .usernameParameter("email")
-               .defaultSuccessUrl("/")
-               .permitAll()
-               .and()
-               .logout()
-               .invalidateHttpSession(true)
-               .clearAuthentication(true)
-               .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-               .logoutSuccessUrl("/")
-               .and()
-               .build();
+        return http.csrf().disable()
+                .authorizeRequests()
+                .requestMatchers(
+                        "/",
+                        "login",
+                        "error",
+                        "/registration/**"
+
+                )
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and()
+                .build();
     }
 }
 

@@ -1,6 +1,9 @@
 package com.atns.fullstackatns.registration;
 
 import com.atns.fullstackatns.event.RegistrationCompleteEvent;
+import com.atns.fullstackatns.registration.token.VerificationRepository;
+import com.atns.fullstackatns.registration.token.VerificationToken;
+import com.atns.fullstackatns.registration.token.VerificationTokenService;
 import com.atns.fullstackatns.user.IUserService;
 import com.atns.fullstackatns.user.User;
 import com.atns.fullstackatns.utility.UrlUtil;
@@ -9,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +24,8 @@ public class RegistrationController {
     private final IUserService userService;
 
     private final ApplicationEventPublisher eventPublisher;
+
+    private final VerificationTokenService tokenService;
 
 
     @GetMapping("/registration-form")
@@ -49,5 +53,28 @@ public class RegistrationController {
 
 
     }
+
+
+    @GetMapping("/verifyEmail")
+    public String verifyEmail(@RequestParam("token") String token) {
+        Optional<VerificationToken> theToken = tokenService.findbyToken(token);
+        if (theToken.isPresent() && theToken.get().getUser().isEnabled()) {
+            return "redirect:/login?verified";
+        }
+        String verificationResult = tokenService.validateToken(String.valueOf(theToken));
+
+        if (verificationResult.equalsIgnoreCase("invalid")) {
+            return "redirect:/error?invalid";
+        } else if (verificationResult.equalsIgnoreCase("expired")) {
+            return "redirect:/error?expired";
+        } else if (verificationResult.equalsIgnoreCase("valid")) {
+            return "redirect:/login?valid";
+
+        }
+        return "redirect:/error?invalid";
+    }
+
+
+
 
 }
