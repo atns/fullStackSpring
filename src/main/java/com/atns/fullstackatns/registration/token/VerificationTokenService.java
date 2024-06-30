@@ -21,7 +21,12 @@ public class VerificationTokenService implements IVerificationTokenService {
     @Override
     public String validateToken(String token) {
 
+        //System.out.println("token: "+token);
+
+//        System.out.println("θα αναζητησει το "+token);///πρεπει να ειναι ο κωδικος του τοκεν και οχι το αντικειμενο
         Optional<VerificationToken> theToken = verificationRepository.findByToken(token);
+
+        System.out.println(" Optional<VerificationToken> theToken = "+theToken);
 
         if (theToken.isEmpty()) {
             return "invalid";
@@ -31,6 +36,9 @@ public class VerificationTokenService implements IVerificationTokenService {
         if (theToken.get().getExpirationTime().getTime() - calendar.getTime().getTime() <= 0) {
             return "expired";
         }
+
+        //valid:
+
         user.setEnabled(true);
 
         userRepository.save(user);
@@ -49,6 +57,11 @@ public class VerificationTokenService implements IVerificationTokenService {
 
     @Override
     public Optional<VerificationToken> findbyToken(String token) {
+        System.out.println("finding verification token...... "+token);
+        System.out.println("####"+verificationRepository.findByToken(token));
+        System.out.println("####"+verificationRepository.findByToken(token).get().getId());
+
+        System.out.println();
         return verificationRepository.findByToken(token);
     }
 }

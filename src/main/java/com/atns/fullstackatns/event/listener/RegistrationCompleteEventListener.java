@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
@@ -37,6 +36,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         tokenService.saveVerificationTokenForUser(user, vToken);
         //4. Build the verification url
         String url = event.getConfirmationUrl() + "/registration/verifyEmail?token=" + vToken;
+        System.out.println("urlverify: "+url);
         //5. send email to the user
         try {
             sendVerificationEmail(url);
@@ -53,7 +53,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         var messageHelper = new MimeMessageHelper(message);
-        messageHelper.setFrom("dailycodeworks@gmail.com", senderName);
+        messageHelper.setFrom("atns@gmail.com", senderName);
         messageHelper.setTo(theUser.getEmail());
         messageHelper.setSubject(subject);
         messageHelper.setText(mailContent, true);
@@ -69,6 +69,20 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
                 "<p>Thank you for registering with us," + "" +
                 "Please, follow the link below to complete your registration.</p>" +
                 "<a href=\"" + url + "\">Verify your email to activate your account</a>" +
+                "<p> Thank you <br> Users Registration Portal Service";
+        emailMessage(subject, senderName, mailContent, mailSender, user);
+    }
+
+
+
+    public void sendPasswordResetVerificationEmail(String url) throws MessagingException,
+            UnsupportedEncodingException {
+        String subject = "Password Reset Verification";
+        String senderName = "Users Verification Service";
+        String mailContent = "<p> Hi, " + user.getFirstName() + ", </p>" +
+                "<p>Thank you for registering with us," + "" +
+                "Please, follow the link below to complete your registration.</p>" +
+                "<a href=\"" + url + "\">Reset Password</a>" +
                 "<p> Thank you <br> Users Registration Portal Service";
         emailMessage(subject, senderName, mailContent, mailSender, user);
     }

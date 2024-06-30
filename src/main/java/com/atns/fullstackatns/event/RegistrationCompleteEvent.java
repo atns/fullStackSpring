@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationEvent;
 
 @Getter
 @Setter
-
 public class RegistrationCompleteEvent extends ApplicationEvent {
 
 
@@ -19,5 +18,6 @@ public class RegistrationCompleteEvent extends ApplicationEvent {
         super(user);
         this.user = user;
         this.confirmationUrl = confirmationUrl;
+        System.out.println("confirmationUrl: "+confirmationUrl);
     }
 }

@@ -28,6 +28,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<User> getAllEnabledUsers() {
+        return _userRepository.findAllByIsEnabled(true);  // Add this method call
+    }
+
+    @Override
     public User registerUser(RegistrationRequest registration) {
         var user = new User(registration.getFirstName(),
                 registration.getLastName(),

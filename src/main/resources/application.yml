@@ -10,15 +10,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      ##create
     show-sql: true
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: dailycodeworks@gmail.com
-#    password: yr_email_pass
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+  mail:
+    host: smtp-relay.sendinblue.com
+    port: 587
+    username: atnstourkos@gmail.com
+    password: dIaG5wWjAk4fpMDP
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
