@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @Transactional
-    @PostMapping("delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/users?delete_success";

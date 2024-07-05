@@ -67,6 +67,7 @@ public class VerificationTokenService implements IVerificationTokenService {
 
     @Override
     public void deleteUserToken(Long id) {
+        System.out.println("deleting verification token...... "+id);
         verificationRepository.deleteByUserId(id);
     }
 }

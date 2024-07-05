@@ -64,6 +64,7 @@ public class UserService implements IUserService {
     @Override
     public void deleteUser(Long id) {
 
+        System.out.println("Deleting user " + id);
 
         Optional<User> theUser = _userRepository.findById(id);
 
