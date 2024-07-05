@@ -137,9 +137,9 @@ public class RegistrationController {
         String passwordResetToken = UUID.randomUUID().toString();
         passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
 
-        //send pass reset Verification email to the user
 
         String url = UrlUtil.getApplicationUrl(req) + "/registration/password-reset-form?token=" + passwordResetToken;
+        //send pass reset Verification email to the user
 
         try {
             eventListener.sendPasswordResetVerificationEmail(url);

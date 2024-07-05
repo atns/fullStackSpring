@@ -10,6 +10,5 @@ public interface VerificationRepository extends JpaRepository<VerificationToken,
     Optional<VerificationToken> findByToken(String token);
 
 
-
-
+    void deleteByUserId(Long id);
 }

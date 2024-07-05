@@ -14,5 +14,10 @@ public interface IUserService {
     User findUserbyEmail(String email);
 
 
+    Optional<User> findById(Long id);
 
+    void updateUser(Long id, String firstName, String lastName, String email);
+
+
+    void deleteUser(Long id);
 }

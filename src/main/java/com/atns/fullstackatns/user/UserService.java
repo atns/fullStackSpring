@@ -2,6 +2,7 @@ package com.atns.fullstackatns.user;
 
 
 import com.atns.fullstackatns.registration.RegistrationRequest;
+import com.atns.fullstackatns.registration.token.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,8 @@ public class UserService implements IUserService {
 
     private final PasswordEncoder _passwordEncoder;
 
+    private final VerificationTokenService verificationTokenService;
+
     @Override
     public List<User> getAllUsers() {
         return _userRepository.findAll();
@@ -37,9 +40,9 @@ public class UserService implements IUserService {
         var user = new User(registration.getFirstName(),
                 registration.getLastName(),
                 registration.getEmail(),
-                _passwordEncoder.encode(registration.getPassword()) ,
+                _passwordEncoder.encode(registration.getPassword()),
                 Arrays.asList(new Role("ROLE_USER")));
-        return  _userRepository.save(user);
+        return _userRepository.save(user);
     }
 
     @Override
@@ -47,6 +50,30 @@ public class UserService implements IUserService {
         return _userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return _userRepository.findById(id);
+    }
+
+    @Override
+    public void updateUser(Long id, String firstName, String lastName, String email) {
+        _userRepository.updateUser(firstName,lastName,email,id);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+
+
+        Optional<User> theUser = _userRepository.findById(id);
+
+        theUser.ifPresent(user -> verificationTokenService.deleteUserToken(user.getId())); /////////////////////////
+        _userRepository.deleteById(id);
+
+    }
+
+
+
 
 
 }
