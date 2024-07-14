@@ -51,7 +51,7 @@ public class RegistrationController {
                                HttpServletRequest request) {
         User user = userService.registerUser(registration);
 
-        //TODO publish the verification event here
+
 
         System.out.println(registration);
         System.out.println(model);
